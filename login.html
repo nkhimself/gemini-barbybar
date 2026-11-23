@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Log in · BarByBar</title><link rel="icon" href="app/icon-192.png">
+<style>
+:root{--bg:#0B1524;--s:#13233A;--l:#24395A;--t:#E8EEF6;--m:#8CA0BA;--a:#F5B642}
+*{box-sizing:border-box;margin:0}
+body{background:radial-gradient(900px 500px at 80% -10%,#1b3358,var(--bg));color:var(--t);font:16px/1.5 "Segoe UI",system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+a{color:inherit;text-decoration:none}:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+.logo{display:flex;gap:10px;align-items:center;font-weight:800;font-size:22px;letter-spacing:-.4px;margin-bottom:22px}.logo img{width:34px;border-radius:9px}
+.box{width:min(400px,100%);background:var(--s);border:1px solid var(--l);border-radius:18px;padding:26px}
+h1{font-size:28px;letter-spacing:-.8px;margin-bottom:4px}p.m{color:var(--m);margin-bottom:18px}
+.tabs{display:flex;border:1px solid var(--l);border-radius:10px;overflow:hidden;margin-bottom:18px}
+.tabs button{flex:1;background:none;border:0;color:var(--m);padding:9px;font:inherit;font-size:15px;cursor:pointer}.tabs .on{background:var(--a);color:#1a1200;font-weight:700}
+label{display:block;font-size:14px;color:var(--m);margin:12px 0 4px}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--l);background:var(--bg);color:var(--t);font-size:16px}
+.go{width:100%;margin-top:20px;background:var(--a);color:#1a1200;border:0;border-radius:10px;padding:13px;font-weight:700;font-size:16px;cursor:pointer}
+.tst{margin-top:16px;font-size:13px;color:var(--m);text-align:center}.back{margin-top:18px;color:var(--m);font-size:14px}
+.nm{display:none}.su .nm{display:block}
+</style></head><body>
+<a class="logo" href="./"><img src="app/icon-192.png" alt="">BarByBar</a>
+<main class="box" id="bx"><h1 id="h">Welcome back</h1><p class="m" id="p">Log in to open your trade log and stats.</p>
+<div class="tabs" role="tablist"><button id="t1" class="on" type="button">Log in</button><button id="t2" type="button">Sign up</button></div>
+<form id="f"><div class="nm"><label for="nm">Name</label><input id="nm" autocomplete="name"></div>
+<label for="id">Email or mobile number</label><input id="id" required autocomplete="username">
+<label for="pw">Password</label><input id="pw" type="password" required autocomplete="current-password">
+<button class="go" id="gb">Log in</button></form>
+<p class="tst">Test version: any details you enter are accepted.</p></main>
+<a class="back" href="./">Back to the website</a>
+<script>
+const $=s=>document.querySelector(s);let su=0;
+function mode(m){su=m;$("#bx").classList.toggle("su",!!m);$("#t1").classList.toggle("on",!m);$("#t2").classList.toggle("on",!!m);
+$("#h").textContent=m?"Create your free account":"Welcome back";$("#p").textContent=m?"Keep your trades, see your stats and unlock more tools.":"Log in to open your trade log and stats.";$("#gb").textContent=m?"Create account":"Log in"}
+$("#t1").onclick=()=>mode(0);$("#t2").onclick=()=>mode(1);if(location.hash=="#signup")mode(1);
+$("#f").onsubmit=e=>{e.preventDefault();const id=$("#id").value.trim(),nm=$("#nm").value.trim();
+try{localStorage.setItem("bbb_user",JSON.stringify({id,name:nm||id.split("@")[0],t:Date.now()}))}catch(x){}
+location.href="./"};
+</script></body></html>
