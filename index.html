@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BarByBar — One Bar at a Time | S&amp;P 500 Price Action Replay</title>
-<meta name="description" content="Replay real S&P 500 regular-hours sessions tick by tick. Pure price action practice on web and Android. Free.">
+<meta name="description" content="Replay real S&amp;P 500 regular-hours sessions tick by tick. Pure price action practice and R-multiple journal on web and Android. Free.">
 <link rel="icon" href="app/icon-192.png">
 <style>
 :root{
@@ -34,30 +34,22 @@ a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--a);outline-offset:2px}
 
-/* Subtle TradingView-style background grid */
-.grid-bg{
-  background-image:
-    linear-gradient(to right, rgba(33,53,84,.22) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(33,53,84,.22) 1px, transparent 1px);
-  background-size:48px 48px;
-}
-
 /* Sticky Top Navigation */
 nav{
   position:sticky;
   top:0;
   z-index:20;
-  background:rgba(7,14,26,.82);
+  background:rgba(7,14,26,.84);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(33,53,84,.7);
+  border-bottom:1px solid rgba(33,53,84,.75);
 }
 .nav-in{
   max-width:1240px;
   margin:auto;
   display:flex;
   align-items:center;
-  gap:24px;
+  gap:22px;
   padding:14px 5vw;
 }
 .logo{
@@ -77,12 +69,11 @@ nav{
   border:1px solid rgba(245,182,66,.3);
   padding:2px 7px;
   border-radius:999px;
-  letter-spacing:.3px;
 }
 nav .sp{flex:1}
 nav a.l{color:var(--m);font-size:14px;font-weight:500;transition:color .15s}
 nav a.l:hover{color:var(--t)}
-@media(max-width:720px){nav a.hide-m{display:none}}
+@media(max-width:780px){nav a.hide-m{display:none}}
 
 /* Buttons */
 .btn{
@@ -101,23 +92,38 @@ nav a.l:hover{color:var(--t)}
 }
 .btn:hover{background:var(--a2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(245,182,66,.22)}
 .btn.o{
-  background:rgba(16,29,48,.85);
+  background:rgba(16,29,48,.86);
   color:var(--t);
   border:1px solid var(--l);
 }
 .btn.o:hover{border-color:var(--l2);background:var(--s2);box-shadow:none}
 .btn.s{padding:8px 14px;font-size:14px;border-radius:8px}
 
-/* Hero Section */
+/* Hero Section with layered high-detail backdrop + grid + glow */
 .hero{
   position:relative;
   border-bottom:1px solid var(--l);
   background:
-    radial-gradient(900px 460px at 78% 18%, rgba(46,196,166,.11), transparent 65%),
-    radial-gradient(800px 420px at 18% 10%, rgba(245,182,66,.10), transparent 60%),
+    linear-gradient(90deg, rgba(7,14,26,.94) 0%, rgba(7,14,26,.78) 52%, rgba(7,14,26,.88) 100%),
+    linear-gradient(180deg, rgba(7,14,26,.45) 0%, rgba(7,14,26,.96) 100%),
+    radial-gradient(820px 420px at 76% 22%, rgba(46,196,166,.16), transparent 65%),
+    radial-gradient(680px 380px at 22% 14%, rgba(245,182,66,.14), transparent 60%),
+    url("hero-bg.jpg") center/cover no-repeat,
     var(--bg);
 }
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(to right, rgba(90,169,255,.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(90,169,255,.06) 1px, transparent 1px);
+  background-size:48px 48px;
+}
 .hero-in{
+  position:relative;
+  z-index:2;
   max-width:1240px;
   margin:auto;
   padding:64px 5vw 72px;
@@ -132,7 +138,7 @@ nav a.l:hover{color:var(--t)}
   display:inline-flex;
   align-items:center;
   gap:8px;
-  background:var(--s);
+  background:rgba(16,29,48,.88);
   border:1px solid var(--l);
   border-radius:999px;
   padding:6px 13px;
@@ -159,7 +165,7 @@ h1 span{
   -webkit-text-fill-color:transparent;
 }
 .sub{
-  color:#B4C4D8;
+  color:#C4D2E4;
   font-size:18px;
   line-height:1.6;
   max-width:32em;
@@ -172,7 +178,7 @@ h1 span{
   flex-wrap:wrap;
   margin-top:24px;
   padding-top:20px;
-  border-top:1px solid rgba(33,53,84,.75);
+  border-top:1px solid rgba(46,72,112,.65);
   font-size:13px;
   color:var(--m);
 }
@@ -180,11 +186,11 @@ h1 span{
 
 /* Hero Terminal Preview Card */
 .term{
-  background:var(--s);
-  border:1px solid var(--l);
+  background:rgba(16,29,48,.94);
+  border:1px solid var(--l2);
   border-radius:18px;
   overflow:hidden;
-  box-shadow:0 24px 60px rgba(0,0,0,.55);
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
 }
 .term-top{
   display:flex;
@@ -198,7 +204,7 @@ h1 span{
 }
 .dots{display:flex;gap:6px}
 .dots i{width:9px;height:9px;border-radius:50%;background:var(--l2);display:block}
-.term-sym{color:var(--t);font-weight:700;letter-spacing:.2px}
+.term-sym{color:var(--t);font-weight:700}
 .term-tf{
   background:var(--s2);
   border:1px solid var(--l);
@@ -207,7 +213,7 @@ h1 span{
   color:var(--a);
   font-weight:700;
 }
-.term-canvas-wrap{position:relative;height:290px;background:#091322}
+.term-canvas-wrap{position:relative;height:290px;background:#081220}
 #hc{width:100%;height:100%;display:block}
 .hud-overlay{
   position:absolute;
@@ -219,7 +225,7 @@ h1 span{
   pointer-events:none;
 }
 .hud-tag{
-  background:rgba(7,14,26,.82);
+  background:rgba(7,14,26,.85);
   border:1px solid var(--l);
   border-radius:7px;
   padding:4px 9px;
@@ -250,7 +256,7 @@ h1 span{
   margin-bottom:8px;
 }
 h2{font-size:clamp(28px,3.8vw,42px);letter-spacing:-1.2px;line-height:1.1;margin-bottom:10px}
-.lead{color:var(--m);font-size:17px;max-width:44em;margin-bottom:26px}
+.lead{color:var(--m);font-size:17px;max-width:46em;margin-bottom:26px}
 
 /* Edge Quote Banner */
 .edge-box{
@@ -276,7 +282,78 @@ h2{font-size:clamp(28px,3.8vw,42px);letter-spacing:-1.2px;line-height:1.1;margin
   padding:5px 10px;
 }
 
-/* Recent Sessions Strip + Replay Cards */
+/* Journal Showcase */
+.j-grid{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:20px;
+  align-items:stretch;
+}
+@media(max-width:960px){.j-grid{grid-template-columns:1fr}}
+.j-panel{
+  background:var(--s);
+  border:1px solid var(--l);
+  border-radius:18px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.j-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.j-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.j-tab{
+  font-size:12px;
+  padding:5px 10px;
+  border-radius:7px;
+  background:var(--bg2);
+  border:1px solid var(--l);
+  color:var(--m);
+}
+.j-tab.on{
+  background:rgba(245,182,66,.16);
+  border-color:rgba(245,182,66,.45);
+  color:var(--a);
+  font-weight:700;
+}
+.j-kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+@media(max-width:560px){.j-kpis{grid-template-columns:repeat(2,1fr)}}
+.j-kpi{
+  background:var(--bg2);
+  border:1px solid var(--l);
+  border-radius:11px;
+  padding:10px 12px;
+}
+.j-kpi small{display:block;font-size:11px;color:var(--m)}
+.j-kpi b{font-size:17px;font-variant-numeric:tabular-nums}
+.eq-box{
+  background:#081220;
+  border:1px solid var(--l);
+  border-radius:12px;
+  padding:10px;
+}
+#eqDemo{width:100%;height:150px;display:block}
+.j-list{display:flex;flex-direction:column;gap:12px;justify-content:space-between}
+.j-feat{
+  background:var(--bg2);
+  border:1px solid var(--l);
+  border-radius:14px;
+  padding:16px 18px;
+}
+.j-feat b{display:block;font-size:16px;margin-bottom:4px}
+.j-feat span{color:var(--m);font-size:14px;display:block}
+.up{color:var(--g)}.dn{color:var(--r)}
+
+/* Sessions & Cards */
 .sec-head{
   display:flex;
   align-items:flex-end;
@@ -303,7 +380,6 @@ h2{font-size:clamp(28px,3.8vw,42px);letter-spacing:-1.2px;line-height:1.1;margin
 .sum small{color:var(--m);display:block;font-size:12px}
 .sum b{font-size:20px;font-variant-numeric:tabular-nums}
 .sum i{font-style:normal;font-size:13px;font-weight:600;margin-left:6px}
-.up{color:var(--g)}.dn{color:var(--r)}
 
 .cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px}
 .cc{
@@ -320,8 +396,8 @@ h2{font-size:clamp(28px,3.8vw,42px);letter-spacing:-1.2px;line-height:1.1;margin
   justify-content:space-between;
   align-items:center;
   padding:12px 14px;
-  background:rgba(11,21,36,.6);
-  border-bottom:1px solid rgba(33,53,84,.6);
+  background:rgba(11,21,36,.65);
+  border-bottom:1px solid rgba(33,53,84,.65);
   font-size:13px;
 }
 .ch span{color:var(--m);font-variant-numeric:tabular-nums}
@@ -342,7 +418,7 @@ h2{font-size:clamp(28px,3.8vw,42px);letter-spacing:-1.2px;line-height:1.1;margin
 }
 .cc:hover .go,.cc:focus-visible .go{opacity:1;transform:none}
 
-/* 3-Step Workflow Cards */
+/* 3-Step Workflow & Specs */
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
 .step-card{
   background:var(--s);
@@ -366,7 +442,6 @@ h2{font-size:clamp(28px,3.8vw,42px);letter-spacing:-1.2px;line-height:1.1;margin
 .step-card h3{font-size:20px;margin-bottom:6px;letter-spacing:-.4px}
 .step-card p{color:var(--m);font-size:15px}
 
-/* Specs Grid */
 .specs{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
@@ -427,9 +502,9 @@ footer b{color:var(--t)}
 <nav>
   <div class="nav-in">
     <a class="logo" href="./"><img src="app/icon-192.png" alt="">BarByBar <span class="badge-ver">S&amp;P 500</span></a>
+    <a class="l hide-m" href="#journal">Journal</a>
     <a class="l hide-m" href="#charts">Sessions</a>
     <a class="l hide-m" href="#how">How it works</a>
-    <a class="l hide-m" href="#specs">Specs</a>
     <span class="sp"></span>
     <span id="au">
       <a class="l" href="login.html" style="margin-right:12px">Log in</a>
@@ -438,12 +513,12 @@ footer b{color:var(--t)}
   </div>
 </nav>
 
-<header class="hero grid-bg">
+<header class="hero">
   <div class="hero-in">
     <div>
       <div class="pill"><span class="dot-live"></span> Pure Price Action · 09:30–16:15 NY Regular Hours</div>
       <h1>Trade the session <span>one bar at a time.</span></h1>
-      <p class="sub">Replay real S&amp;P 500 5-minute sessions tick by tick. Watch each candle form without hindsight, manage stops and partials, and build your edge in R.</p>
+      <p class="sub">Replay real S&amp;P 500 5-minute sessions tick by tick. Watch each candle form without hindsight, drag stops and partials, and review every trade in R.</p>
       <div class="cta">
         <a class="btn" href="app/">Open the Chart →</a>
         <a class="btn o" href="login.html#signup">Create Free Account</a>
@@ -472,7 +547,7 @@ footer b{color:var(--t)}
       </div>
       <div class="term-bot">
         <div class="term-stat"><small>Session Window</small><b>09:30 – 16:15</b></div>
-        <div class="term-stat"><small>Chart Styles</small><b>Classic &amp; Dark</b></div>
+        <div class="term-stat"><small>Journal Metric</small><b class="up">1R = Initial Stop</b></div>
         <div class="term-stat"><small>License</small><b class="up">Free to Start</b></div>
       </div>
     </div>
@@ -485,15 +560,66 @@ footer b{color:var(--t)}
       <h2>Find your edge.</h2>
       <h2 class="muted">Find your weakness and make it your strength.</h2>
       <div class="tags-row">
-        <span class="setup-pill">H1 / H2 Pullbacks</span>
-        <span class="setup-pill">L1 / L2 Entries</span>
-        <span class="setup-pill">Breakout &amp; Follow-Through</span>
+        <span class="setup-pill">H2 / L2 Entries</span>
+        <span class="setup-pill">Breakout Pullback</span>
         <span class="setup-pill">Wedge &amp; Channel</span>
-        <span class="setup-pill">Measured Moves</span>
-        <span class="setup-pill">20 EMA Context</span>
+        <span class="setup-pill">Failed Breakout</span>
+        <span class="setup-pill">20-Gap-Bar</span>
+        <span class="setup-pill">Trading Range Fade</span>
       </div>
     </div>
     <a class="btn o" href="app/">Practice Now</a>
+  </div>
+</section>
+
+<section class="sec" id="journal">
+  <div class="kicker">Built-In Trade Journal &amp; R Analytics</div>
+  <h2>Every trade measured in R—not guesswork.</h2>
+  <p class="lead">Your initial stop defines 1R. Track win rate, profit factor, max drawdown, longest losing streak, setup tags, entry time windows, and rule adherence—then export to CSV anytime.</p>
+
+  <div class="j-grid">
+    <div class="j-panel">
+      <div class="j-head">
+        <div>
+          <strong style="font-size:15px">Sample Journal View</strong>
+          <span style="display:block;font-size:12px;color:var(--m)">Cumulative R curve &amp; core stats</span>
+        </div>
+        <div class="j-tabs" aria-hidden="true">
+          <span class="j-tab on">Summary</span>
+          <span class="j-tab">By setup</span>
+          <span class="j-tab">By time</span>
+          <span class="j-tab">Rules</span>
+          <span class="j-tab">Trades</span>
+        </div>
+      </div>
+
+      <div class="j-kpis">
+        <div class="j-kpi"><small>Net Total</small><b class="up">+14.6R</b></div>
+        <div class="j-kpi"><small>Profit Factor</small><b>2.18</b></div>
+        <div class="j-kpi"><small>Win Rate</small><b>58%</b></div>
+        <div class="j-kpi"><small>Max Drop</small><b class="dn">-2.4R</b></div>
+      </div>
+
+      <div class="eq-box">
+        <canvas id="eqDemo" aria-label="Sample cumulative R curve"></canvas>
+      </div>
+    </div>
+
+    <div class="j-list">
+      <div class="j-feat">
+        <b>Breakdown by Setup, Time of Day &amp; Rules</b>
+        <span>See which setups (like H2/L2, wedges, or breakout pullbacks) and 30-minute session windows pay you—and compare rule-checked vs. skipped trades.</span>
+      </div>
+      <div class="j-feat">
+        <b>MFE / MAE, Partials, Break-Even &amp; Trade Notes</b>
+        <span>Record partial exits, break-even moves, MFE/MAE in R, and minutes in trade. Tap any logged trade to edit its tag or note—or export full CSV with one click.</span>
+      </div>
+      <div class="j-feat">
+        <b>Ready to inspect your own numbers?</b>
+        <span style="margin-bottom:10px">Take trades on the replay chart and open the journal anytime to review your stats.</span>
+        <a class="btn s" href="app/">Open Chart &amp; Journal →</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -523,16 +649,16 @@ footer b{color:var(--t)}
     <div class="step-card">
       <div class="step-num">2</div>
       <h3>Trade it</h3>
-      <p>Place orders, drag stop-loss and take-profit lines directly on the chart, take partial exits, move to break-even, and tag your setup.</p>
+      <p>Drag stop-loss and take-profit lines directly on the chart, take partial exits, move to break-even, and tag your setup.</p>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
       <h3>Review it</h3>
-      <p>Measure every trade in R-multiples, export your journal to CSV, and track which setups actually make you money.</p>
+      <p>Analyze every trade in R, break down setups and entry times, and export clean CSV logs for deeper study.</p>
     </div>
   </div>
 
-  <div class="specs" id="specs">
+  <div class="specs">
     <div class="spec">
       <b>09:30 to 16:15 New York</b>
       <span>Regular trading hours only: 81 five-minute bars per session with prior day, week, and month levels.</span>
@@ -543,7 +669,7 @@ footer b{color:var(--t)}
     </div>
     <div class="spec">
       <b>Classic or Modern themes</b>
-      <span>Clean white MetaTrader look or dark terminal theme for long sessions, plus color-blind mode.</span>
+      <span>White MetaTrader look or dark terminal theme for long sessions, plus color-blind mode.</span>
     </div>
     <div class="spec">
       <b>Multi-chart &amp; offline ready</b>
@@ -558,9 +684,9 @@ footer b{color:var(--t)}
       <h2>Free for everyone.<br>More with an account.</h2>
       <p class="lead" style="margin:6px 0 0">Start replaying immediately with zero setup, or sign in to save your progress.</p>
       <div class="check-list">
-        <span>Full tick replay &amp; drawing tools</span>
-        <span>R-multiple trade simulator</span>
-        <span>Cloud journal &amp; stats (with account)</span>
+        <span>Full tick replay &amp; R journal</span>
+        <span>Setup, time &amp; rule analytics</span>
+        <span>CSV export &amp; offline cache</span>
       </div>
     </div>
     <div class="cta">
@@ -578,7 +704,6 @@ footer b{color:var(--t)}
 <script>
 const B="https://drknygdsfirqaypagosr.supabase.co/storage/v1/object/public/ticks/",$=s=>document.querySelector(s);
 
-// Account state
 try{
   const u=JSON.parse(localStorage.getItem("bbb_user")||"null");
   if(u){
@@ -588,7 +713,33 @@ try{
   }
 }catch(e){}
 
-// Simulated fallback candles (81 bars = 09:30 to 16:15)
+// Sample cumulative R curve for journal preview
+(function drawDemoEq(){
+  const cv=$("#eqDemo");
+  if(!cv)return;
+  const d=devicePixelRatio||1,w=cv.clientWidth||520,h=cv.clientHeight||150;
+  cv.width=w*d;cv.height=h*d;
+  const x=cv.getContext("2d");
+  x.setTransform(d,0,0,d,0,0);
+  const pts=[0,1.4,0.4,2.6,1.8,4.1,3.3,5.8,4.9,7.4,6.2,8.9,8.1,10.7,9.8,12.2,11.4,14.6];
+  const lo=Math.min(0,...pts),hi=Math.max(1,...pts),rng=(hi-lo)||1;
+  const padL=36,padR=12,padT=12,padB=22;
+  const X=i=>padL+(w-padL-padR)*(i/(pts.length-1));
+  const Y=v=>padT+(h-padT-padB)*(1-(v-lo)/rng);
+
+  x.strokeStyle="#1c2f4b";
+  x.beginPath();x.moveTo(padL,Y(0));x.lineTo(w-padR,Y(0));x.stroke();
+  x.fillStyle="#8CA0BA";x.font="10px sans-serif";
+  x.fillText("0R",6,Y(0)+3);
+  x.fillText("+"+hi.toFixed(1)+"R",4,padT+6);
+  x.fillText("Cumulative R by closed trade",padL,h-5);
+
+  x.strokeStyle="#2EC4A6";x.lineWidth=2;
+  x.beginPath();
+  pts.forEach((v,i)=>{if(i===0)x.moveTo(X(i),Y(v));else x.lineTo(X(i),Y(v));});
+  x.stroke();
+})();
+
 let seed=17;
 const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
 function sim(){
@@ -628,7 +779,6 @@ function draw(it){
   hi+=pd;lo-=pd;
   const Y=q=>h-12-(q-lo)/(hi-lo)*(h-24);
 
-  // Subtle price grid
   if(it.ax){
     x.font="10px sans-serif";
     for(let k=0;k<4;k++){
@@ -640,7 +790,6 @@ function draw(it){
     }
   }
 
-  // 20-period EMA line
   if(s.length>4){
     const k=2/21;
     let ema=s[0][4];
@@ -656,7 +805,6 @@ function draw(it){
     x.lineWidth=1;
   }
 
-  // Candlesticks
   s.forEach((b,j)=>{
     const cx=j*bw+bw/2,up=b[4]>=b[1],c=up?"#2EC4A6":"#F0707A";
     x.strokeStyle=c;
@@ -666,7 +814,6 @@ function draw(it){
     x.fillRect(cx-bw*.34,t,bw*.68,Math.max(1.5,Math.abs(Y(b[1])-Y(b[4]))));
   });
 
-  // Forming bar highlight + amber tick dot
   const j=s.length-1,cx=j*bw+bw/2;
   x.strokeStyle="#F5B642";
   x.setLineDash([3,2]);
@@ -692,10 +839,8 @@ function add(cv,ax,N,spd,b){
   return it;
 }
 
-// Hero chart
 add($("#hc"),1,52,2.0);
 
-// 3 session cards
 const cards=[0,1,2].map(()=>{
   const a=document.createElement("a");
   a.className="cc";
@@ -718,7 +863,6 @@ let last=performance.now();
   requestAnimationFrame(loop);
 })(last);
 
-// Load real S&P 500 sessions from Supabase bucket
 let cachedPool=[],mc={};
 async function loadCards(){
   if(!cachedPool.length)return;
