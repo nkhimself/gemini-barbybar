@@ -1,900 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BarByBar — One Bar at a Time | S&amp;P 500 Price Action Replay</title>
-<meta name="description" content="Replay real S&amp;P 500 regular-hours sessions tick by tick. Pure price action practice and R-multiple journal on web and Android. Free.">
+<title>Baarina: one bar at a time</title>
+<meta name="description" content="Replay real S&P 500 sessions tick by tick. Watch every bar form, trade it, and learn to read it. Free.">
+<meta property="og:title" content="Baarina: one bar at a time"><meta property="og:description" content="Replay real S&P 500 sessions tick by tick."><meta property="og:image" content="img/og.jpg">
 <link rel="icon" href="app/icon-192.png">
-<style>
-:root{
-  --bg:#070E1A;
-  --bg2:#0B1524;
-  --s:#101D30;
-  --s2:#15253D;
-  --l:#213554;
-  --l2:#2E4870;
-  --t:#EDF2F9;
-  --m:#8CA0BA;
-  --a:#F5B642;
-  --a2:#FFD074;
-  --g:#2EC4A6;
-  --r:#F0707A;
-  --b:#5AA9FF;
-}
+<style>:root{--bg:#0B1524;--s:#13233A;--l:#24395A;--t:#E8EEF6;--m:#8CA0BA;--a:#F5B642;--g:#2EC4A6;--r:#F0707A}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--t);
-  font:16px/1.55 "Segoe UI",system-ui,-apple-system,sans-serif;
-  overflow-x:hidden;
-}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--a);outline-offset:2px}
-
-/* Sticky Top Navigation */
-nav{
-  position:sticky;
-  top:0;
-  z-index:20;
-  background:rgba(7,14,26,.84);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(33,53,84,.75);
-}
-.nav-in{
-  max-width:1240px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  gap:22px;
-  padding:14px 5vw;
-}
-.logo{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  font-weight:800;
-  font-size:20px;
-  letter-spacing:-.4px;
-}
-.logo img{width:32px;height:32px;border-radius:8px}
-.badge-ver{
-  font-size:11px;
-  font-weight:700;
-  color:var(--a);
-  background:rgba(245,182,66,.12);
-  border:1px solid rgba(245,182,66,.3);
-  padding:2px 7px;
-  border-radius:999px;
-}
-nav .sp{flex:1}
-nav a.l{color:var(--m);font-size:14px;font-weight:500;transition:color .15s}
-nav a.l:hover{color:var(--t)}
-@media(max-width:780px){nav a.hide-m{display:none}}
-
-/* Buttons */
-.btn{
-  background:var(--a);
-  color:#171000;
-  border:0;
-  border-radius:10px;
-  padding:12px 22px;
-  font-weight:700;
-  font-size:15px;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  cursor:pointer;
-  transition:transform .15s,background .15s,box-shadow .15s;
-}
-.btn:hover{background:var(--a2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(245,182,66,.22)}
-.btn.o{
-  background:rgba(16,29,48,.86);
-  color:var(--t);
-  border:1px solid var(--l);
-}
-.btn.o:hover{border-color:var(--l2);background:var(--s2);box-shadow:none}
-.btn.s{padding:8px 14px;font-size:14px;border-radius:8px}
-
-/* Hero Section with layered high-detail backdrop + grid + glow */
-.hero{
-  position:relative;
-  border-bottom:1px solid var(--l);
-  background:
-    linear-gradient(90deg, rgba(7,14,26,.94) 0%, rgba(7,14,26,.78) 52%, rgba(7,14,26,.88) 100%),
-    linear-gradient(180deg, rgba(7,14,26,.45) 0%, rgba(7,14,26,.96) 100%),
-    radial-gradient(820px 420px at 76% 22%, rgba(46,196,166,.16), transparent 65%),
-    radial-gradient(680px 380px at 22% 14%, rgba(245,182,66,.14), transparent 60%),
-    url("hero-bg.jpg") center/cover no-repeat,
-    var(--bg);
-}
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background-image:
-    linear-gradient(to right, rgba(90,169,255,.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(90,169,255,.06) 1px, transparent 1px);
-  background-size:48px 48px;
-}
-.hero-in{
-  position:relative;
-  z-index:2;
-  max-width:1240px;
-  margin:auto;
-  padding:64px 5vw 72px;
-  display:grid;
-  grid-template-columns:1.08fr .92fr;
-  gap:40px;
-  align-items:center;
-}
-@media(max-width:960px){.hero-in{grid-template-columns:1fr;padding:48px 5vw 56px}}
-
-.pill{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:rgba(16,29,48,.88);
-  border:1px solid var(--l);
-  border-radius:999px;
-  padding:6px 13px;
-  font-size:13px;
-  color:var(--m);
-  margin-bottom:18px;
-}
-.dot-live{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--g);
-  box-shadow:0 0 0 4px rgba(46,196,166,.18);
-}
-h1{
-  font-size:clamp(42px,6.2vw,76px);
-  line-height:1.01;
-  letter-spacing:-2.4px;
-  font-weight:800;
-}
-h1 span{
-  background:linear-gradient(95deg,#FFFFFF 25%,var(--a) 95%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.sub{
-  color:#C4D2E4;
-  font-size:18px;
-  line-height:1.6;
-  max-width:32em;
-  margin:18px 0 28px;
-}
-.cta{display:flex;gap:12px;flex-wrap:wrap}
-.hero-meta{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  margin-top:24px;
-  padding-top:20px;
-  border-top:1px solid rgba(46,72,112,.65);
-  font-size:13px;
-  color:var(--m);
-}
-.hero-meta b{color:var(--t);font-weight:700}
-
-/* Hero Terminal Preview Card */
-.term{
-  background:rgba(16,29,48,.94);
-  border:1px solid var(--l2);
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 24px 60px rgba(0,0,0,.6);
-}
-.term-top{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:11px 14px;
-  background:var(--bg2);
-  border-bottom:1px solid var(--l);
-  font-size:12px;
-  color:var(--m);
-}
-.dots{display:flex;gap:6px}
-.dots i{width:9px;height:9px;border-radius:50%;background:var(--l2);display:block}
-.term-sym{color:var(--t);font-weight:700}
-.term-tf{
-  background:var(--s2);
-  border:1px solid var(--l);
-  border-radius:6px;
-  padding:2px 7px;
-  color:var(--a);
-  font-weight:700;
-}
-.term-canvas-wrap{position:relative;height:290px;background:#081220}
-#hc{width:100%;height:100%;display:block}
-.hud-overlay{
-  position:absolute;
-  left:12px;
-  top:12px;
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  pointer-events:none;
-}
-.hud-tag{
-  background:rgba(7,14,26,.85);
-  border:1px solid var(--l);
-  border-radius:7px;
-  padding:4px 9px;
-  font-size:11px;
-  font-variant-numeric:tabular-nums;
-  color:var(--t);
-}
-.hud-tag b{color:var(--a)}
-.term-bot{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  border-top:1px solid var(--l);
-  background:var(--bg2);
-}
-.term-stat{padding:11px 14px;border-right:1px solid var(--l)}
-.term-stat:last-child{border-right:0}
-.term-stat small{display:block;font-size:11px;color:var(--m)}
-.term-stat b{font-size:15px;font-variant-numeric:tabular-nums}
-
-/* Sections */
-.sec{max-width:1240px;margin:auto;padding:76px 5vw 0}
-.kicker{
-  color:var(--a);
-  font-size:12px;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:1.2px;
-  margin-bottom:8px;
-}
-h2{font-size:clamp(28px,3.8vw,42px);letter-spacing:-1.2px;line-height:1.1;margin-bottom:10px}
-.lead{color:var(--m);font-size:17px;max-width:46em;margin-bottom:26px}
-
-/* Edge Quote Banner */
-.edge-box{
-  background:linear-gradient(135deg,var(--s),var(--bg2));
-  border:1px solid var(--l);
-  border-radius:18px;
-  padding:32px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:24px;
-  flex-wrap:wrap;
-}
-.edge-box h2{font-size:clamp(24px,3vw,34px);margin-bottom:4px}
-.edge-box h2.muted{color:var(--m);font-weight:600}
-.tags-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.setup-pill{
-  font-size:12px;
-  color:var(--t);
-  background:var(--bg);
-  border:1px solid var(--l);
-  border-radius:8px;
-  padding:5px 10px;
-}
-
-/* Journal Showcase */
-.j-grid{
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-  gap:20px;
-  align-items:stretch;
-}
-@media(max-width:960px){.j-grid{grid-template-columns:1fr}}
-.j-panel{
-  background:var(--s);
-  border:1px solid var(--l);
-  border-radius:18px;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-.j-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.j-tabs{display:flex;gap:6px;flex-wrap:wrap}
-.j-tab{
-  font-size:12px;
-  padding:5px 10px;
-  border-radius:7px;
-  background:var(--bg2);
-  border:1px solid var(--l);
-  color:var(--m);
-}
-.j-tab.on{
-  background:rgba(245,182,66,.16);
-  border-color:rgba(245,182,66,.45);
-  color:var(--a);
-  font-weight:700;
-}
-.j-kpis{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-@media(max-width:560px){.j-kpis{grid-template-columns:repeat(2,1fr)}}
-.j-kpi{
-  background:var(--bg2);
-  border:1px solid var(--l);
-  border-radius:11px;
-  padding:10px 12px;
-}
-.j-kpi small{display:block;font-size:11px;color:var(--m)}
-.j-kpi b{font-size:17px;font-variant-numeric:tabular-nums}
-.eq-box{
-  background:#081220;
-  border:1px solid var(--l);
-  border-radius:12px;
-  padding:10px;
-}
-#eqDemo{width:100%;height:150px;display:block}
-.j-list{display:flex;flex-direction:column;gap:12px;justify-content:space-between}
-.j-feat{
-  background:var(--bg2);
-  border:1px solid var(--l);
-  border-radius:14px;
-  padding:16px 18px;
-}
-.j-feat b{display:block;font-size:16px;margin-bottom:4px}
-.j-feat span{color:var(--m);font-size:14px;display:block}
+body{background:var(--bg);color:var(--t);font:16px/1.55 "Segoe UI",system-ui,sans-serif}
+a{color:inherit;text-decoration:none}:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+.top{position:sticky;top:0;z-index:30;background:#0B1524d9;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #24395Aaa}
+.tw{max-width:1280px;margin:auto;display:flex;align-items:center;gap:26px;padding:12px 5vw}
+.logo{display:flex;gap:10px;align-items:center;font-weight:800;font-size:20px;letter-spacing:-.4px}.logo img{width:30px;border-radius:8px}
+.tw nav{display:flex;gap:22px;flex:1}.tw nav a{color:var(--m);font-size:15px}.tw nav a:hover{color:var(--t)}
+.btn{background:var(--a);color:#1a1200;border:0;border-radius:10px;padding:12px 22px;font-weight:700;font-size:15px;display:inline-block;cursor:pointer;transition:transform .15s,box-shadow .15s}.btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px #F5B64233}
+.btn.o{background:#0B152488;color:var(--t);border:1px solid var(--l);box-shadow:none}.btn.s{padding:8px 14px;font-size:14px}
+.l{color:var(--m);font-size:15px}
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--l)}
+.herobg{position:absolute;inset:0;background:url(img/hero-bg.jpg) center/cover no-repeat;opacity:.55}
+.hero:before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(700px 420px at 82% 18%,#1d4a8a55,transparent 70%),radial-gradient(520px 380px at 8% 95%,#F5B64222,transparent 70%),linear-gradient(#ffffff09 1px,transparent 1px) 0 0/56px 56px,linear-gradient(90deg,#ffffff09 1px,transparent 1px) 0 0/56px 56px;-webkit-mask-image:linear-gradient(180deg,#000 60%,transparent);mask-image:linear-gradient(180deg,#000 60%,transparent)}
+#hc{position:absolute;inset:0;width:100%;height:100%;opacity:.4;z-index:1}
+.hw{position:relative;z-index:2;max-width:1280px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:4vw;align-items:center;padding:8vh 5vw}
+h1{font-size:clamp(44px,6.4vw,92px);line-height:.98;letter-spacing:-3px;font-weight:800}
+.sub{color:#b4c3d6;font-size:20px;max-width:27em;margin:20px 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}.note{color:var(--m);font-size:14px;margin-top:16px}
+.win{background:#0F1B2Df2;border:1px solid var(--l);border-radius:16px;box-shadow:0 30px 80px #000a,0 0 0 1px #ffffff06 inset;overflow:hidden}
+.wh{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--l);font-size:14px}.wh b{font-weight:600}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:#2a3b57}
+.pl{font-style:normal;font-size:11px;background:#F5B64222;color:var(--a);border-radius:20px;padding:1px 9px;margin-left:auto}
+#wc{width:100%;height:330px;display:block}
+.tkt{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--l)}.tkt div{padding:10px 14px;border-right:1px solid var(--l)}.tkt div:last-child{border:0}
+.tkt small{display:block;color:var(--m);font-size:12px}.tkt b{font-size:17px;font-variant-numeric:tabular-nums}
 .up{color:var(--g)}.dn{color:var(--r)}
-
-/* Sessions & Cards */
-.sec-head{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:16px;
-  flex-wrap:wrap;
-  margin-bottom:20px;
-}
-.sec-head .lead{margin-bottom:0}
-.sum{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
-  gap:10px;
-  margin-bottom:18px;
-}
-.sum a{
-  background:var(--s);
-  border:1px solid var(--l);
-  border-radius:12px;
-  padding:12px 14px;
-  transition:border-color .15s,transform .15s;
-}
-.sum a:hover,.cc:hover{border-color:var(--a);transform:translateY(-2px)}
-.sum small{color:var(--m);display:block;font-size:12px}
-.sum b{font-size:20px;font-variant-numeric:tabular-nums}
-.sum i{font-style:normal;font-size:13px;font-weight:600;margin-left:6px}
-
-.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px}
-.cc{
-  position:relative;
-  display:block;
-  background:var(--s);
-  border:1px solid var(--l);
-  border-radius:16px;
-  overflow:hidden;
-  transition:border-color .2s,transform .2s;
-}
-.ch{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 14px;
-  background:rgba(11,21,36,.65);
-  border-bottom:1px solid rgba(33,53,84,.65);
-  font-size:13px;
-}
-.ch span{color:var(--m);font-variant-numeric:tabular-nums}
+.tape{overflow:hidden;background:#0e1b2e;border-bottom:1px solid var(--l)}.tape[hidden]{display:none}
+.trk{display:inline-flex;gap:38px;white-space:nowrap;padding:11px 0;animation:mq 90s linear infinite;font-size:14px;color:#c3d0e2;font-variant-numeric:tabular-nums}.trk a:hover{color:var(--a)}.trk b{color:var(--m);font-weight:500}.trk i{font-style:normal}
+@keyframes mq{to{transform:translateX(-50%)}}
+.sec{max-width:1200px;margin:auto;padding:9vh 5vw 0}
+h2{font-size:clamp(28px,4vw,44px);letter-spacing:-1.2px;line-height:1.08;margin-bottom:8px}.lead{color:var(--m);margin-bottom:26px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border:1px solid var(--l);border-radius:16px;background:var(--s);overflow:hidden}
+.stats div{padding:22px 24px;border-right:1px solid var(--l)}.stats div:last-child{border:0}.stats b{display:block;font-size:34px;letter-spacing:-1px;font-variant-numeric:tabular-nums}.stats span{color:var(--m);font-size:14px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card{background:linear-gradient(180deg,#16294688,#13233A);border:1px solid var(--l);border-radius:18px;padding:28px}.card h3{font-size:clamp(24px,3vw,32px);letter-spacing:-.8px;line-height:1.1;margin-bottom:10px}.card p{color:var(--m)}
+.card.a{border-color:#F5B64266}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}
+.sum a{background:var(--s);border:1px solid var(--l);border-radius:12px;padding:12px 14px}.sum a:hover,.cc:hover{border-color:var(--a)}
+.sum small{color:var(--m);display:block;font-size:12px}.sum b{font-size:20px;font-variant-numeric:tabular-nums}.sum i{font-style:normal;font-size:14px;margin-left:6px}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.cc{position:relative;display:block;background:var(--s);border:1px solid var(--l);border-radius:16px;overflow:hidden;transition:border-color .2s}
+.ch{display:flex;align-items:center;gap:8px;padding:12px 14px;font-size:14px}.ch span{color:var(--m)}.ch .pl{margin-left:auto}
 .cc canvas{width:100%;height:230px;display:block}
-.go{
-  position:absolute;
-  right:12px;
-  bottom:12px;
-  background:var(--a);
-  color:#171000;
-  font-weight:700;
-  font-size:13px;
-  border-radius:8px;
-  padding:7px 13px;
-  opacity:0;
-  transform:translateY(6px);
-  transition:.2s;
-}
+.go{position:absolute;right:12px;bottom:12px;background:var(--a);color:#1a1200;font-weight:700;font-size:13px;border-radius:8px;padding:6px 12px;opacity:0;transform:translateY(6px);transition:.2s}
 .cc:hover .go,.cc:focus-visible .go{opacity:1;transform:none}
+.fl{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.fl div{background:var(--s);border:1px solid var(--l);border-radius:16px;padding:22px}.fl b{display:block;font-size:19px;margin-bottom:4px}.fl span{color:var(--m)}.fl em{font-style:normal;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--a);color:#1a1200;font-weight:800;margin-right:10px;font-size:14px}
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}.strip div{border-top:1px solid var(--l);padding:14px 4px}.strip b{display:block;font-size:17px}.strip span{color:var(--m);font-size:14px}
+.jt{width:100%;border-collapse:collapse}.jt th{color:var(--m);font-weight:400;text-align:left;padding:8px 12px;font-size:14px}.jt td{padding:10px 12px;border-top:1px solid var(--l);font-variant-numeric:tabular-nums}.jb{background:var(--s);border:1px solid var(--l);border-radius:16px;padding:14px 18px;overflow-x:auto}.tag{color:var(--a)}
+.band{margin-top:10vh;background:radial-gradient(600px 300px at 90% 0,#F5B64222,transparent),var(--s);border-block:1px solid var(--l)}
+.band .sec{display:flex;gap:30px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-bottom:8vh}
+.bl{margin:14px 0 0 18px;color:var(--m)}.bl b{color:var(--t)}
+footer{background:#08111e;margin-top:0;border-top:1px solid var(--l)}
+.fw{max-width:1200px;margin:auto;padding:7vh 5vw 3vh;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px}
+.fw h4{font-size:14px;color:var(--t);margin-bottom:12px}.fw a{display:block;color:var(--m);font-size:14px;margin:7px 0}.fw a:hover{color:var(--a)}.fw p{color:var(--m);font-size:14px;max-width:30em;margin-top:12px}
+.fb{max-width:1200px;margin:auto;padding:18px 5vw 28px;border-top:1px solid var(--l);color:var(--m);font-size:13px;display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+@media(max-width:980px){.hw{grid-template-columns:1fr}.tw nav{display:none}.tw{justify-content:space-between}.fw{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}</style></head><body>
+<header class="top"><div class="tw"><a class="logo" href="./"><img src="app/icon-192.png" alt="">Baarina</a>
+<nav><a href="app/">Chart</a><a href="#sessions">Sessions</a><a href="#how">How it works</a><a href="#journal">Journal</a><a href="#free">Free</a></nav>
+<span id="au"><a class="l" href="login.html">Log in</a> <a class="btn s" href="login.html#signup">Sign up free</a></span></div></header>
 
-/* 3-Step Workflow & Specs */
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
-.step-card{
-  background:var(--s);
-  border:1px solid var(--l);
-  border-radius:16px;
-  padding:24px;
-}
-.step-num{
-  width:32px;
-  height:32px;
-  border-radius:9px;
-  background:rgba(245,182,66,.14);
-  border:1px solid rgba(245,182,66,.35);
-  color:var(--a);
-  font-weight:800;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  margin-bottom:14px;
-}
-.step-card h3{font-size:20px;margin-bottom:6px;letter-spacing:-.4px}
-.step-card p{color:var(--m);font-size:15px}
+<section class="hero"><div class="herobg"></div><canvas id="hc" aria-hidden="true"></canvas>
+<div class="hw"><div class="hi">
+<h1>One bar at a time.</h1>
+<p class="sub">Replay real S&amp;P 500 sessions tick by tick. Watch every bar form, trade it, and learn to read it.</p>
+<div class="cta"><a class="btn" href="app/">Open the chart</a><a class="btn o" href="login.html#signup">Create free account</a></div>
+<p class="note">Free to use. Runs in your browser and works offline after the first load.</p></div>
+<div class="win"><div class="wh"><span class="dots"><i></i><i></i><i></i></span><b id="wt">S&amp;P 500 · 5m</b><em class="pl" id="wp">Live replay</em></div>
+<canvas id="wc"></canvas>
+<div class="tkt"><div><small>Long entry</small><b id="te">-</b></div><div><small>Stop</small><b id="ts">-</b></div><div><small>Target</small><b id="tg">-</b></div><div><small>Open P&amp;L</small><b id="tl">-</b></div></div></div>
+</div></section>
 
-.specs{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:14px;
-  margin-top:22px;
-}
-.spec{
-  background:var(--bg2);
-  border:1px solid var(--l);
-  border-radius:14px;
-  padding:18px;
-}
-.spec b{display:block;font-size:16px;margin-bottom:4px}
-.spec span{color:var(--m);font-size:14px}
+<div class="tape" id="tk" hidden><div class="trk" id="tt"></div></div>
 
-/* Bottom CTA Band */
-.band{
-  margin-top:80px;
-  background:linear-gradient(180deg,var(--s),var(--bg2));
-  border-block:1px solid var(--l);
-}
-.band .sec{
-  display:flex;
-  gap:30px;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  padding-top:56px;
-  padding-bottom:56px;
-}
-.check-list{
-  display:flex;
-  gap:18px;
-  flex-wrap:wrap;
-  margin-top:12px;
-  font-size:14px;
-  color:var(--m);
-}
-.check-list span::before{content:"✓ ";color:var(--g);font-weight:700}
+<section class="sec"><div class="stats">
+<div><b>81</b><span>bars in every session</span></div><div><b>5</b><span>timeframes from one tick stream</span></div><div><b id="nd">-</b><span>real sessions to replay</span></div><div><b>Price action</b><span>first, indicators optional</span></div></div></section>
 
-footer{
-  max-width:1240px;
-  margin:auto;
-  padding:40px 5vw 54px;
-  color:var(--m);
-  font-size:14px;
-  display:flex;
-  justify-content:space-between;
-  gap:16px;
-  flex-wrap:wrap;
-}
-footer b{color:var(--t)}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
-</style>
-</head>
-<body>
+<section class="sec"><div class="two"><div class="card a"><h3>Find your edge.</h3><p>Replay real sessions and learn which setups actually pay you: second entries, failed breakouts, trading range fades.</p></div>
+<div class="card"><h3>Find your weakness and make it your strength.</h3><p>Tag every trade, review it in R and see exactly where you lose. Fix one thing at a time.</p></div></div></section>
 
-<nav>
-  <div class="nav-in">
-    <a class="logo" href="./"><img src="app/icon-192.png" alt="">BarByBar <span class="badge-ver">S&amp;P 500</span></a>
-    <a class="l hide-m" href="#journal">Journal</a>
-    <a class="l hide-m" href="#charts">Sessions</a>
-    <a class="l hide-m" href="#how">How it works</a>
-    <span class="sp"></span>
-    <span id="au">
-      <a class="l" href="login.html" style="margin-right:12px">Log in</a>
-      <a class="btn s" href="app/">Launch Chart</a>
-    </span>
-  </div>
-</nav>
+<section class="sec" id="sessions"><h2>Pick a session. The bar is already forming.</h2><p class="lead">These charts replay real days. Click one to open it in the full chart.</p>
+<div class="sum" id="sm"></div><div class="cg" id="cg"></div></section>
 
-<header class="hero">
-  <div class="hero-in">
-    <div>
-      <div class="pill"><span class="dot-live"></span> Pure Price Action · 09:30–16:15 NY Regular Hours</div>
-      <h1>Trade the session <span>one bar at a time.</span></h1>
-      <p class="sub">Replay real S&amp;P 500 5-minute sessions tick by tick. Watch each candle form without hindsight, drag stops and partials, and review every trade in R.</p>
-      <div class="cta">
-        <a class="btn" href="app/">Open the Chart →</a>
-        <a class="btn o" href="login.html#signup">Create Free Account</a>
-      </div>
-      <div class="hero-meta">
-        <div><b>81</b> 5m bars / day</div>
-        <div><b>5</b> timeframes (5m–1D)</div>
-        <div><b>Web + Android</b> offline ready</div>
-      </div>
-    </div>
+<section class="sec" id="how"><h2>Watch it. Trade it. Review it.</h2><p class="lead">Pure price action practice on S&amp;P 500 regular hours: bars, ranges, breakouts and pullbacks. Indicators are optional.</p>
+<div class="fl">
+<div><b><em>1</em>Watch it form</b><span>The bar builds tick by tick, like a live chart. You set the speed and press Next bar when you are ready.</span></div>
+<div><b><em>2</em>Trade it</b><span>Drag stop and target, take partials, move to break-even, and tag every setup.</span></div>
+<div><b><em>3</em>Review it</b><span>Every trade in R, with a journal and stats that show where your edge is.</span></div></div>
+<div class="strip"><div><b>09:30 to 16:15 New York</b><span>81 five-minute bars a day</span></div><div><b>5m, 15m, 45m, 1h, 1D</b><span>All built from the same ticks</span></div><div><b>Classic or Modern</b><span>Light chart or dark, color-blind colors included</span></div><div><b>Works offline</b><span>Days are saved after the first load</span></div></div></section>
 
-    <div class="term">
-      <div class="term-top">
-        <div class="dots"><i></i><i></i><i></i></div>
-        <span class="term-sym">US500 · RTH</span>
-        <span class="term-tf">5m</span>
-        <span style="margin-left:auto">Tick Replay</span>
-      </div>
-      <div class="term-canvas-wrap">
-        <canvas id="hc" aria-hidden="true"></canvas>
-        <div class="hud-overlay">
-          <span class="hud-tag">20 EMA <b>ON</b></span>
-          <span class="hud-tag">Risk <b>1.0R</b></span>
-          <span class="hud-tag">Mode <b>Bar-by-Bar</b></span>
-        </div>
-      </div>
-      <div class="term-bot">
-        <div class="term-stat"><small>Session Window</small><b>09:30 – 16:15</b></div>
-        <div class="term-stat"><small>Journal Metric</small><b class="up">1R = Initial Stop</b></div>
-        <div class="term-stat"><small>License</small><b class="up">Free to Start</b></div>
-      </div>
-    </div>
-  </div>
-</header>
+<section class="sec" id="journal"><h2>After the chart: your journal.</h2><p class="lead">Tag every trade with its setup and see your results in R. Sample data below, not real trades.</p>
+<div class="jb"><table class="jt"><thead><tr><th>Setup tag</th><th>Side</th><th>Result</th></tr></thead><tbody>
+<tr><td class="tag">Second entry (H2/L2)</td><td>Buy</td><td class="up">+1.8 R</td></tr><tr><td class="tag">Failed breakout</td><td>Sell</td><td class="up">+2.0 R</td></tr><tr><td class="tag">Wedge</td><td>Buy</td><td class="dn">-1.0 R</td></tr><tr><td class="tag">Trading range fade</td><td>Sell</td><td class="up">+1.0 R</td></tr>
+<tr><td colspan="2"><b>Win rate 75%</b></td><td><b>+3.8 R total</b></td></tr></tbody></table></div></section>
 
-<section class="sec">
-  <div class="edge-box">
-    <div>
-      <h2>Find your edge.</h2>
-      <h2 class="muted">Find your weakness and make it your strength.</h2>
-      <div class="tags-row">
-        <span class="setup-pill">H2 / L2 Entries</span>
-        <span class="setup-pill">Breakout Pullback</span>
-        <span class="setup-pill">Wedge &amp; Channel</span>
-        <span class="setup-pill">Failed Breakout</span>
-        <span class="setup-pill">20-Gap-Bar</span>
-        <span class="setup-pill">Trading Range Fade</span>
-      </div>
-    </div>
-    <a class="btn o" href="app/">Practice Now</a>
-  </div>
-</section>
+<div class="band" id="free"><div class="sec"><div><h2>Free for everyone.<br>More with an account.</h2><p class="lead" style="margin:0">Log in to keep your journal, see your stats and unlock the extra tools.</p>
+<ul class="bl"><li><b>Free now:</b> replay, all drawing tools, trading and chart settings</li><li><b>With an account:</b> trade log, stats and backup (coming)</li><li><b>Phone app:</b> on the way</li></ul></div>
+<div class="cta"><a class="btn" href="login.html#signup">Create free account</a><a class="btn o" href="app/">Just open the chart</a></div></div></div>
 
-<section class="sec" id="journal">
-  <div class="kicker">Built-In Trade Journal &amp; R Analytics</div>
-  <h2>Every trade measured in R—not guesswork.</h2>
-  <p class="lead">Your initial stop defines 1R. Track win rate, profit factor, max drawdown, longest losing streak, setup tags, entry time windows, and rule adherence—then export to CSV anytime.</p>
-
-  <div class="j-grid">
-    <div class="j-panel">
-      <div class="j-head">
-        <div>
-          <strong style="font-size:15px">Sample Journal View</strong>
-          <span style="display:block;font-size:12px;color:var(--m)">Cumulative R curve &amp; core stats</span>
-        </div>
-        <div class="j-tabs" aria-hidden="true">
-          <span class="j-tab on">Summary</span>
-          <span class="j-tab">By setup</span>
-          <span class="j-tab">By time</span>
-          <span class="j-tab">Rules</span>
-          <span class="j-tab">Trades</span>
-        </div>
-      </div>
-
-      <div class="j-kpis">
-        <div class="j-kpi"><small>Net Total</small><b class="up">+14.6R</b></div>
-        <div class="j-kpi"><small>Profit Factor</small><b>2.18</b></div>
-        <div class="j-kpi"><small>Win Rate</small><b>58%</b></div>
-        <div class="j-kpi"><small>Max Drop</small><b class="dn">-2.4R</b></div>
-      </div>
-
-      <div class="eq-box">
-        <canvas id="eqDemo" aria-label="Sample cumulative R curve"></canvas>
-      </div>
-    </div>
-
-    <div class="j-list">
-      <div class="j-feat">
-        <b>Breakdown by Setup, Time of Day &amp; Rules</b>
-        <span>See which setups (like H2/L2, wedges, or breakout pullbacks) and 30-minute session windows pay you—and compare rule-checked vs. skipped trades.</span>
-      </div>
-      <div class="j-feat">
-        <b>MFE / MAE, Partials, Break-Even &amp; Trade Notes</b>
-        <span>Record partial exits, break-even moves, MFE/MAE in R, and minutes in trade. Tap any logged trade to edit its tag or note—or export full CSV with one click.</span>
-      </div>
-      <div class="j-feat">
-        <b>Ready to inspect your own numbers?</b>
-        <span style="margin-bottom:10px">Take trades on the replay chart and open the journal anytime to review your stats.</span>
-        <a class="btn s" href="app/">Open Chart &amp; Journal →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="charts">
-  <div class="sec-head">
-    <div>
-      <div class="kicker">Live Session Previews</div>
-      <h2>Pick a session. The bar is already forming.</h2>
-      <p class="lead">Real S&amp;P 500 regular-hours days replaying tick by tick. Click any session to open the full chart.</p>
-    </div>
-    <button class="btn o s" type="button" id="shuf">Shuffle Days</button>
-  </div>
-  <div class="sum" id="sm"></div>
-  <div class="cg" id="cg"></div>
-</section>
-
-<section class="sec" id="how">
-  <div class="kicker">Deliberate Practice Loop</div>
-  <h2>Watch it. Trade it. Review it.</h2>
-  <p class="lead">Built specifically for classical S&amp;P 500 price action without indicator clutter.</p>
-  <div class="steps">
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <h3>Watch it form</h3>
-      <p>Every candle builds tick by tick like a live feed. Adjust replay speed or step forward with Next Bar when you are ready.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <h3>Trade it</h3>
-      <p>Drag stop-loss and take-profit lines directly on the chart, take partial exits, move to break-even, and tag your setup.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <h3>Review it</h3>
-      <p>Analyze every trade in R, break down setups and entry times, and export clean CSV logs for deeper study.</p>
-    </div>
-  </div>
-
-  <div class="specs">
-    <div class="spec">
-      <b>09:30 to 16:15 New York</b>
-      <span>Regular trading hours only: 81 five-minute bars per session with prior day, week, and month levels.</span>
-    </div>
-    <div class="spec">
-      <b>Five synchronized timeframes</b>
-      <span>Switch seamlessly between 5m, 15m, 45m, 1h, and Daily—all built from the exact same tick stream.</span>
-    </div>
-    <div class="spec">
-      <b>Classic or Modern themes</b>
-      <span>White MetaTrader look or dark terminal theme for long sessions, plus color-blind mode.</span>
-    </div>
-    <div class="spec">
-      <b>Multi-chart &amp; offline ready</b>
-      <span>Adjustable 3-chart layout, frozen price axis scaling, and automatic offline caching on your device.</span>
-    </div>
-  </div>
-</section>
-
-<div class="band">
-  <div class="sec">
-    <div>
-      <h2>Free for everyone.<br>More with an account.</h2>
-      <p class="lead" style="margin:6px 0 0">Start replaying immediately with zero setup, or sign in to save your progress.</p>
-      <div class="check-list">
-        <span>Full tick replay &amp; R journal</span>
-        <span>Setup, time &amp; rule analytics</span>
-        <span>CSV export &amp; offline cache</span>
-      </div>
-    </div>
-    <div class="cta">
-      <a class="btn" href="login.html#signup">Create Free Account</a>
-      <a class="btn o" href="app/">Just Open the Chart</a>
-    </div>
-  </div>
-</div>
-
-<footer>
-  <div><b>BarByBar</b> — One bar at a time. An independent practice tool for price action traders, not affiliated with Al Brooks or any trading course.</div>
-  <div>For education and practice only, not financial advice.</div>
-</footer>
-
+<footer><div class="fw"><div><a class="logo" href="./"><img src="app/icon-192.png" alt="">Baarina</a><p>One bar at a time. Find your edge. Find your weakness and make it your strength.</p></div>
+<div><h4>Product</h4><a href="app/">Open the chart</a><a href="#sessions">Sessions</a><a href="#how">How it works</a><a href="#journal">Journal</a></div>
+<div><h4>Account</h4><a href="login.html">Log in</a><a href="login.html#signup">Sign up free</a></div>
+<div><h4>Good to know</h4><a href="#free">Phone app: on the way</a><a href="#how">Session hours</a><a href="login.html">Your account</a></div></div>
+<div class="fb"><span>© 2026 Baarina. An independent practice tool for price action traders, not affiliated with any trading course. For education, not advice.</span></div></footer>
 <script>
 const B="https://drknygdsfirqaypagosr.supabase.co/storage/v1/object/public/ticks/",$=s=>document.querySelector(s);
-
-try{
-  const u=JSON.parse(localStorage.getItem("bbb_user")||"null");
-  if(u){
-    const safeName=String(u.name||"Trader").replace(/[<>&"]/g,"");
-    $("#au").innerHTML='<span class="l" style="color:var(--m);margin-right:10px">Hi, '+safeName+'</span> <a class="btn s o" href="#" id="lo">Log out</a>';
-    $("#lo").onclick=e=>{e.preventDefault();localStorage.removeItem("bbb_user");location.reload()};
-  }
-}catch(e){}
-
-// Sample cumulative R curve for journal preview
-(function drawDemoEq(){
-  const cv=$("#eqDemo");
-  if(!cv)return;
-  const d=devicePixelRatio||1,w=cv.clientWidth||520,h=cv.clientHeight||150;
-  cv.width=w*d;cv.height=h*d;
-  const x=cv.getContext("2d");
-  x.setTransform(d,0,0,d,0,0);
-  const pts=[0,1.4,0.4,2.6,1.8,4.1,3.3,5.8,4.9,7.4,6.2,8.9,8.1,10.7,9.8,12.2,11.4,14.6];
-  const lo=Math.min(0,...pts),hi=Math.max(1,...pts),rng=(hi-lo)||1;
-  const padL=36,padR=12,padT=12,padB=22;
-  const X=i=>padL+(w-padL-padR)*(i/(pts.length-1));
-  const Y=v=>padT+(h-padT-padB)*(1-(v-lo)/rng);
-
-  x.strokeStyle="#1c2f4b";
-  x.beginPath();x.moveTo(padL,Y(0));x.lineTo(w-padR,Y(0));x.stroke();
-  x.fillStyle="#8CA0BA";x.font="10px sans-serif";
-  x.fillText("0R",6,Y(0)+3);
-  x.fillText("+"+hi.toFixed(1)+"R",4,padT+6);
-  x.fillText("Cumulative R by closed trade",padL,h-5);
-
-  x.strokeStyle="#2EC4A6";x.lineWidth=2;
-  x.beginPath();
-  pts.forEach((v,i)=>{if(i===0)x.moveTo(X(i),Y(v));else x.lineTo(X(i),Y(v));});
-  x.stroke();
-})();
-
-let seed=17;
-const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
-function sim(){
-  let p=5850+rnd()*260,o=[];
-  for(let k=0;k<81;k++){
-    const a=p;let h=a,l=a,c=a;
-    for(let i=0;i<10;i++){
-      c+=(rnd()-.485)*2.5;
-      h=Math.max(h,c);
-      l=Math.min(l,c);
-    }
-    p=c;
-    o.push([k,a,h,l,c]);
-  }
-  return o;
-}
-
-function draw(it){
-  const cv=it.cv,d=devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;
-  if(!w||!h)return;
-  if(cv._w!=w||cv._h!=h){cv.width=w*d;cv.height=h*d;cv._w=w;cv._h=h}
-  const x=cv.getContext("2d");
-  x.setTransform(d,0,0,d,0,0);
-  x.clearRect(0,0,w,h);
-
-  const n=it.t,i=Math.min(Math.floor(n),it.b.length-1),f=n-i;
-  const v=it.b.slice(0,i+1).map(b=>b.slice());
-  const L=v[i],g=Math.min(1,f*1.6);
-  L[4]=L[1]+(L[4]-L[1])*f;
-  L[2]=Math.max(L[1]+(L[2]-L[1])*g,L[4],L[1]);
-  L[3]=Math.min(L[1]+(L[3]-L[1])*g,L[4],L[1]);
-
-  const N=it.N,s=v.slice(-N),AX=it.ax?48:0,W=w-AX,bw=W/N;
-  let hi=-1e9,lo=1e9;
-  s.forEach(b=>{hi=Math.max(hi,b[2]);lo=Math.min(lo,b[3])});
-  const pd=(hi-lo)*.16||1;
-  hi+=pd;lo-=pd;
-  const Y=q=>h-12-(q-lo)/(hi-lo)*(h-24);
-
-  if(it.ax){
-    x.font="10px sans-serif";
-    for(let k=0;k<4;k++){
-      const q=lo+(hi-lo)*k/3,y=Y(q);
-      x.strokeStyle="#1a2c46";
-      x.beginPath();x.moveTo(0,y);x.lineTo(W,y);x.stroke();
-      x.fillStyle="#8CA0BA";
-      x.fillText(q.toFixed(1),W+5,y+3);
-    }
-  }
-
-  if(s.length>4){
-    const k=2/21;
-    let ema=s[0][4];
-    x.strokeStyle="rgba(90,169,255,.75)";
-    x.lineWidth=1.4;
-    x.beginPath();
-    s.forEach((b,j)=>{
-      ema=j===0?b[4]:b[4]*k+ema*(1-k);
-      const cx=j*bw+bw/2,cy=Y(ema);
-      if(j===0)x.moveTo(cx,cy);else x.lineTo(cx,cy);
-    });
-    x.stroke();
-    x.lineWidth=1;
-  }
-
-  s.forEach((b,j)=>{
-    const cx=j*bw+bw/2,up=b[4]>=b[1],c=up?"#2EC4A6":"#F0707A";
-    x.strokeStyle=c;
-    x.beginPath();x.moveTo(cx,Y(b[2]));x.lineTo(cx,Y(b[3]));x.stroke();
-    x.fillStyle=c;
-    const t=Y(Math.max(b[1],b[4]));
-    x.fillRect(cx-bw*.34,t,bw*.68,Math.max(1.5,Math.abs(Y(b[1])-Y(b[4]))));
-  });
-
-  const j=s.length-1,cx=j*bw+bw/2;
-  x.strokeStyle="#F5B642";
-  x.setLineDash([3,2]);
-  x.strokeRect(cx-bw*.5,Y(L[2])-1,bw,Y(L[3])-Y(L[2])+2);
-  if(it.ax){
-    x.beginPath();x.moveTo(0,Y(L[4]));x.lineTo(W,Y(L[4]));x.stroke();
-    x.setLineDash([]);
-    x.fillStyle="#F5B642";
-    x.fillRect(W,Y(L[4])-7,AX,14);
-    x.fillStyle="#171000";
-    x.fillText(L[4].toFixed(1),W+5,Y(L[4])+3);
-  }
-  x.setLineDash([]);
-  x.fillStyle="#F5B642";
-  x.beginPath();x.arc(cx,Y(L[2])-6,3,0,7);x.fill();
-}
-
+// account state (test version: anything is accepted on the login page)
+try{const u=JSON.parse(localStorage.getItem("bbb_user")||"null");if(u){$("#au").innerHTML='<span class="l" style="color:var(--m)">Hi, '+String(u.name||"Trader").replace(/[<>&"]/g,"")+'</span> <a class="btn s o" href="#" id="lo">Log out</a>';$("#lo").onclick=e=>{e.preventDefault();localStorage.removeItem("bbb_user");location.reload()}}}catch(e){}
+// charts
+let seed=11;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
+function sim(){let p=5800+rnd()*300,o=[];for(let k=0;k<81;k++){const a=p;let h=a,l=a,c=a;for(let i=0;i<10;i++){c+=(rnd()-.485)*2.6;h=Math.max(h,c);l=Math.min(l,c)}p=c;o.push([k,a,h,l,c])}return o}
+function draw(it){const cv=it.cv,d=devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;
+if(cv._w!=w||cv._h!=h){cv.width=w*d;cv.height=h*d;cv._w=w;cv._h=h}
+const x=cv.getContext("2d");x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);
+const n=it.t,i=Math.min(Math.floor(n),it.b.length-1),f=n-i,v=it.b.slice(0,i+1).map(b=>b.slice());
+const L=v[i],g=Math.min(1,f*1.6);L[4]=L[1]+(L[4]-L[1])*f;L[2]=Math.max(L[1]+(L[2]-L[1])*g,L[4],L[1]);L[3]=Math.min(L[1]+(L[3]-L[1])*g,L[4],L[1]);
+const N=it.N,s=v.slice(-N),AX=it.ax?44:0,W=w-AX,bw=W/N;let hi=-1e9,lo=1e9;s.forEach(b=>{hi=Math.max(hi,b[2]);lo=Math.min(lo,b[3])});
+const pd=(hi-lo)*.14||1;hi+=pd;lo-=pd;const Y=q=>h-10-(q-lo)/(hi-lo)*(h-20);
+if(it.ax){x.font="10px sans-serif";for(let k=0;k<4;k++){const q=lo+(hi-lo)*k/3,y=Y(q);x.strokeStyle="#1d304b";x.beginPath();x.moveTo(0,y);x.lineTo(W,y);x.stroke();x.fillStyle="#8CA0BA";x.fillText(q.toFixed(1),W+4,y+3)}}
+s.forEach((b,j)=>{const cx=j*bw+bw/2,up=b[4]>=b[1],c=up?"#2EC4A6":"#F0707A";x.strokeStyle=c;x.beginPath();x.moveTo(cx,Y(b[2]));x.lineTo(cx,Y(b[3]));x.stroke();x.fillStyle=c;const t=Y(Math.max(b[1],b[4]));x.fillRect(cx-bw*.34,t,bw*.68,Math.max(1,Math.abs(Y(b[1])-Y(b[4]))))});
+const j=s.length-1,cx=j*bw+bw/2;x.strokeStyle="#F5B642";x.setLineDash([3,2]);x.strokeRect(cx-bw*.5,Y(L[2])-1,bw,Y(L[3])-Y(L[2])+2);
+if(it.ax){x.beginPath();x.moveTo(0,Y(L[4]));x.lineTo(W,Y(L[4]));x.stroke();x.setLineDash([]);x.fillStyle="#F5B642";x.fillRect(W,Y(L[4])-7,AX,14);x.fillStyle="#1a1200";x.fillText((L[4]/1).toFixed(1),W+4,Y(L[4])+3)}x.setLineDash([]);
+x.fillStyle="#F5B642";x.beginPath();x.arc(cx,Y(L[2])-6,2.8,0,7);x.fill()}
 const items=[];
-function add(cv,ax,N,spd,b){
-  const it={cv,ax,N,spd,b:b||sim(),t:ax?30:24,vis:1};
-  new IntersectionObserver(e=>it.vis=e[0].isIntersecting).observe(cv);
-  items.push(it);
-  return it;
-}
-
-add($("#hc"),1,52,2.0);
-
-const cards=[0,1,2].map(()=>{
-  const a=document.createElement("a");
-  a.className="cc";
-  a.href="app/";
-  a.innerHTML='<div class="ch"><b>S&amp;P 500</b><span>5m · 09:30–16:15</span></div><canvas></canvas><span class="go">Replay session →</span>';
-  $("#cg").appendChild(a);
-  return{a,it:add(a.querySelector("canvas"),1,48,1.5)};
-});
-
-let last=performance.now();
-(function loop(t){
-  const dt=Math.min(.1,(t-last)/1000);
-  last=t;
-  items.forEach(it=>{
-    if(!it.vis)return;
-    it.t+=dt*it.spd;
-    if(it.t>=it.b.length-1)it.t=it.ax?30:24;
-    draw(it);
-  });
-  requestAnimationFrame(loop);
-})(last);
-
-let cachedPool=[],mc={};
-async function loadCards(){
-  if(!cachedPool.length)return;
-  for(const c of cards){
-    const d=cachedPool[Math.floor(Math.random()*cachedPool.length)],m=d.slice(0,7);
-    try{
-      mc[m]=mc[m]||await fetch(B+"m_"+m+".json").then(r=>r.json());
-      const bars=(mc[m][d]||[]).map(r=>[r[0],r[1]/1000,r[2]/1000,r[3]/1000,r[4]/1000]);
-      if(bars.length>20){
-        c.it.b=bars;
-        c.it.t=24;
-        c.a.querySelector("span").textContent=d+" · 5m replay";
-      }
-    }catch(e){}
-  }
-}
-$("#shuf").onclick=()=>loadCards();
-
-fetch(B+"daily.json").then(r=>r.json()).then(async dj=>{
-  const days=Object.keys(dj).sort();
-  if(days.length<8)return;
-  const sm=$("#sm");
-  days.slice(-5).reverse().forEach(d=>{
-    const q=dj[d],pv=dj[days[days.indexOf(d)-1]],ch=pv?(q[3]-pv[3])/pv[3]*100:0;
-    const a=document.createElement("a");
-    a.href="app/";
-    a.innerHTML='<small>'+d+'</small><b>'+(q[3]/1000).toFixed(1)+'</b><i class="'+(ch>=0?"up":"dn")+'">'+(ch>=0?"+":"")+ch.toFixed(2)+'%</i>';
-    sm.appendChild(a);
-  });
-  cachedPool=days.slice(-250);
-  await loadCards();
-}).catch(()=>{});
-</script>
-</body>
-</html>
+function add(cv,ax,N,spd,b){const it={cv,ax,N,spd,b:b||sim(),t:ax?30:20,vis:1};new IntersectionObserver(e=>it.vis=e[0].isIntersecting).observe(cv);items.push(it);return it}
+add($("#hc"),0,70,2.2);
+const win=add($("#wc"),1,52,1.5);
+const cards=[0,1,2].map(k=>{const a=document.createElement("a");a.className="cc";a.href="app/";a.innerHTML='<div class="ch"><b>S&amp;P 500</b><span>5m replay</span><i class="pl">Live replay</i></div><canvas></canvas><span class="go">Open chart</span>';$("#cg").appendChild(a);const it=add(a.querySelector("canvas"),1,48,1.4);it.pill=a.querySelector(".pl");return{a,it}});
+function tkt(){const b=win.b,i=Math.min(Math.floor(win.t),b.length-1),e=b[27][4],pn=b[i][4]-e,f=v=>v.toFixed(1);
+$("#te").textContent=f(e);$("#ts").textContent=f(e-8);$("#tg").textContent=f(e+16);const l=$("#tl");l.textContent=(pn>=0?"+":"")+f(pn)+" pts";l.className=pn>=0?"up":"dn";$("#wp").textContent="Bar "+(i+1)+"/"+b.length}
+let last=performance.now();(function loop(t){const dt=Math.min(.1,(t-last)/1000);last=t;items.forEach(it=>{if(!it.vis)return;it.t+=dt*it.spd;if(it.t>=it.b.length-1)it.t=it.ax?30:20;draw(it);if(it===win)tkt();else if(it.pill)it.pill.textContent="Bar "+(Math.floor(it.t)+1)+"/"+it.b.length});requestAnimationFrame(loop)})(last);
+// real data from the Supabase bucket (falls back to the simulated charts above)
+fetch(B+"daily.json").then(r=>r.json()).then(async dj=>{const days=Object.keys(dj).sort();if(days.length<8)return;
+$("#nd").textContent=days.length.toLocaleString();
+const sm=$("#sm"),tt=$("#tt");
+const chg=d=>{const q=dj[d],pv=dj[days[days.indexOf(d)-1]];return pv?(q[3]-pv[3])/pv[3]*100:0};
+days.slice(-5).reverse().forEach(d=>{const q=dj[d],ch=chg(d),a=document.createElement("a");a.href="app/?date="+d;a.innerHTML='<small>'+d+'</small><b>'+(q[3]/1000).toFixed(1)+'</b><i class="'+(ch>=0?"up":"dn")+'">'+(ch>=0?"+":"")+ch.toFixed(2)+'%</i>';sm.appendChild(a)});
+let h="";days.slice(-24).reverse().forEach(d=>{const ch=chg(d);h+='<a href="app/?date='+d+'"><b>'+d+'</b> '+(dj[d][3]/1000).toFixed(1)+' <i class="'+(ch>=0?"up":"dn")+'">'+(ch>=0?"▲ +":"▼ ")+ch.toFixed(2)+'%</i></a>'});
+tt.innerHTML=h+h;$("#tk").hidden=false;
+const pool=days.slice(-250),mc={};
+const getBars=async d=>{const m=d.slice(0,7);mc[m]=mc[m]||await fetch(B+"m_"+m+".json").then(r=>r.json());return mc[m][d].map(r=>[r[0],r[1]/1000,r[2]/1000,r[3]/1000,r[4]/1000])};
+const pick=()=>pool[Math.floor(Math.random()*pool.length)];
+try{const d=pick(),bars=await getBars(d);if(bars.length>45){win.b=bars;win.t=30;$("#wt").textContent="S&P 500 · "+d+" · 5m"}}catch(e){}
+for(const c of cards){const d=pick();try{const bars=await getBars(d);if(bars.length>20){c.it.b=bars;c.it.t=24;c.a.href="app/?date="+d;c.a.querySelector("span").textContent=d+" · 5m replay"}}catch(e){}}}).catch(()=>{});
+</script></body></html>
